@@ -1,4 +1,4 @@
-import requests
+import httpx
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
 
@@ -11,7 +11,8 @@ dp = Dispatcher()
 @dp.message()
 async def get_info(message: Message):
     fio = message.text.strip()
-    response = requests.post(WEBAPP_URL, json={"fio": fio})
+    async with httpx.AsyncClient() as client:
+        response = await client.post(WEBAPP_URL, json={"fio": fio})
 
     try:
         data = response.json()
@@ -28,7 +29,6 @@ async def get_info(message: Message):
                 f"Курс: {data['AJ']}\n"
                 f"Чи скорочений термін навчання: {data['AD']}")
         await message.answer(text)
-
 
 async def main():
     await dp.start_polling(bot)
