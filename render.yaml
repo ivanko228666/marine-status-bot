@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: marine-status-bot
+    env: python
+    pythonVersion: "3.12.13"   # <- указываем рабочую версию Python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"   # <- замените на команду запуска вашего бота
